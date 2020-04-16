@@ -3,14 +3,13 @@ package com.ntapia.hotoppic.topic.domain;
 import static javax.persistence.CascadeType.ALL;
 
 import com.ntapia.hotoppic.topic.application.creator.TopicAnalyseInvalidArgumentException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,8 +31,7 @@ public class TopicAnalyse {
   @Enumerated(EnumType.STRING)
   private AnalyseStatus analyseStatus;
 
-  @OneToMany(cascade = ALL, fetch = FetchType.EAGER)
-  @JoinColumn(name = "topic_analyse_id")
+  @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "topicAnalyse")
   private List<Rss> rssList;
 
   private TopicAnalyse() {
@@ -48,17 +46,16 @@ public class TopicAnalyse {
     this.rssList = rssList;
   }
 
-  public static TopicAnalyse create(String id, AnalyseStatus analyseStatus, List<Rss> rssList) {
+  public static TopicAnalyse create(String id, AnalyseStatus analyseStatus) {
     if (StringUtils.isBlank(id)) {
       throw new TopicAnalyseInvalidArgumentException(ID_IS_REQUIRED);
     }
 
-    if (Objects.isNull(analyseStatus) || rssList.size() < 2) {
-      throw new TopicAnalyseInvalidArgumentException(SHOULD_LEAST_TWO_RSS);
-    }
-
-    return new TopicAnalyse(id, analyseStatus, rssList);
+    return new TopicAnalyse(id, analyseStatus, new ArrayList<>());
   }
 
-
+  public void addRss(Rss rss) {
+    rssList.add(rss);
+    rss.setTopicAnalyse(this);
+  }
 }

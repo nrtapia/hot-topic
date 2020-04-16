@@ -1,9 +1,11 @@
 package com.ntapia.hotoppic.shared.domain;
 
-import lombok.Value;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
-@Value
+@Getter
+@EqualsAndHashCode(of = "data", callSuper = false)
 public class DomainEvent<T> extends ApplicationEvent {
 
   private T data;

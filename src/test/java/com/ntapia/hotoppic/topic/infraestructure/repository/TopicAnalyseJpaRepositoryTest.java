@@ -32,11 +32,9 @@ public class TopicAnalyseJpaRepositoryTest {
   public void givenTwoUrlsWhenCreateTopicAnalyseThenMustPersistInDatabase() {
 
     final String id = TestUtil.getId();
-    final TopicAnalyse topicAnalyse = TopicAnalyse.create(id, AnalyseStatus.CREATED,
-        Arrays.asList(
-            Rss.create(null, TestUtil.URL_VALID_1),
-            Rss.create(null, TestUtil.URL_VALID_2)
-        ));
+    final TopicAnalyse topicAnalyse = TopicAnalyse.create(id, AnalyseStatus.CREATED);
+    topicAnalyse.addRss(Rss.create(null, TestUtil.URL_VALID_1));
+    topicAnalyse.addRss(Rss.create(null, TestUtil.URL_VALID_2));
 
     topicAnalyseJpaRepository.save(topicAnalyse);
 

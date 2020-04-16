@@ -103,7 +103,9 @@ public class TopicAnalyseCreatorImplTest {
         .map(url -> Rss.create(null, url))
         .collect(Collectors.toList());
 
-    final TopicAnalyse topicAnalyse = TopicAnalyse.create(ID_VALID, AnalyseStatus.CREATED, rssList);
+    final TopicAnalyse topicAnalyse = TopicAnalyse.create(ID_VALID, AnalyseStatus.CREATED);
+    rssList.forEach(topicAnalyse::addRss);
+
     willDoNothing().given(topicAnalyseRepository).save(topicAnalyse);
 
     final TopicAnalyseCreated topicAnalyseCreated = new TopicAnalyseCreated(topicAnalyse);

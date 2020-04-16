@@ -2,18 +2,22 @@ package com.ntapia.hotoppic.topic.domain;
 
 import com.ntapia.hotoppic.topic.application.creator.TopicAnalyseInvalidArgumentException;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.UrlValidator;
 
 @Getter
+@Setter
 @EqualsAndHashCode
-@ToString
+@ToString(exclude = "topicAnalyse")
 @Entity
 public class Rss {
 
@@ -27,6 +31,9 @@ public class Rss {
   private Long id;
 
   private String url;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  private TopicAnalyse topicAnalyse;
 
   public Rss() {
     this.id = null;

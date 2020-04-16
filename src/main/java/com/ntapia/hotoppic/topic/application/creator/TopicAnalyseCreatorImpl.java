@@ -40,9 +40,9 @@ public class TopicAnalyseCreatorImpl implements TopicAnalyseCreator {
 
     validateRequest(creatorRequest);
 
-    final List<Rss> rssList = mapUrlsToRss(creatorRequest);
     final String id = idGenerator.generate();
-    final TopicAnalyse topicAnalyse = TopicAnalyse.create(id, AnalyseStatus.CREATED, rssList);
+    final TopicAnalyse topicAnalyse = TopicAnalyse.create(id, AnalyseStatus.CREATED);
+    mapUrlsToRss(creatorRequest).forEach(topicAnalyse::addRss);
 
     this.topicAnalyseRepository.save(topicAnalyse);
     this.domainEventPublisher.publish(new TopicAnalyseCreated(topicAnalyse));
