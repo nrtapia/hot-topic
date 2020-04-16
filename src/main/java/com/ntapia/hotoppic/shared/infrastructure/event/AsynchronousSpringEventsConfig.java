@@ -6,9 +6,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ApplicationEventMulticaster;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 @Configuration
 public class AsynchronousSpringEventsConfig {
+
+  private static final String THREAD_NAME_PREFIX = "events-";
 
   @Value("${events.poolSize}")
   private int poolSize;
@@ -18,7 +21,10 @@ public class AsynchronousSpringEventsConfig {
     final SimpleApplicationEventMulticaster simpleApplicationEventMulticaster
         = new SimpleApplicationEventMulticaster();
 
-    simpleApplicationEventMulticaster.setTaskExecutor(Executors.newFixedThreadPool(poolSize));
+    CustomizableThreadFactory threadFactory = new CustomizableThreadFactory(THREAD_NAME_PREFIX);
+
+    simpleApplicationEventMulticaster
+        .setTaskExecutor(Executors.newFixedThreadPool(poolSize, threadFactory));
 
     return simpleApplicationEventMulticaster;
   }

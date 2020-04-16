@@ -12,12 +12,10 @@ public class TestUtil {
 
   private static ObjectMapper mapper = new ObjectMapper();
 
-
   public static final String URL_VALID_1
       = "https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&output=rss";
 
-  public static final String URL_VALID_2
-      = "https://www.genbeta.com/tag/rss";
+  public static final String URL_VALID_2 = "https://news.yahoo.com/rss";
 
   static {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
