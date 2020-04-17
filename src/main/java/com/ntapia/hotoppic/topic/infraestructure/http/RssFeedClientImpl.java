@@ -3,12 +3,12 @@ package com.ntapia.hotoppic.topic.infraestructure.http;
 import com.ntapia.hotoppic.topic.domain.Rss;
 import com.ntapia.hotoppic.topic.domain.RssFeedClient;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
@@ -36,7 +36,9 @@ public class RssFeedClientImpl implements RssFeedClient {
     rssList.forEach(rss -> completionService.submit(new RssFeedDownloader(rss)));
 
     List<Rss> response = new ArrayList<>();
-    for (Rss rss : rssList) {
+    Iterator<Rss> iterator = rssList.iterator();
+    while(iterator.hasNext()) {
+      iterator.next();
       try {
         final Future<Rss> future = completionService.take();
         final Rss rssResponse = future.get();
@@ -44,6 +46,7 @@ public class RssFeedClientImpl implements RssFeedClient {
 
       } catch (ExecutionException | InterruptedException e) {
         log.warn("Error while downloading RSS", e);
+        Thread.currentThread().interrupt();
       }
     }
 

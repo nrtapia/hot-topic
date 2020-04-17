@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import lombok.Data;
 
@@ -48,6 +47,6 @@ public class RssItem {
   }
 
   public static RssItem create(Long id, String title, String link, Rss rss) {
-    return new RssItem(null, title, link, rss);
+    return new RssItem(id, title, link, rss);
   }
 }
