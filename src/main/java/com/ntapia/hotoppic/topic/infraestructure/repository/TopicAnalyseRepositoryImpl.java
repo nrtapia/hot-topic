@@ -50,8 +50,9 @@ public class TopicAnalyseRepositoryImpl implements TopicAnalyseRepository {
   public List<RssItem> findItemsByTopicAndLimit(int hotTopicCount) {
 
     return rssItemJpaRepository.findAll(
-        PageRequest.of(0, hotTopicCount, Sort.by(Direction.DESC, "rank")))
-        .stream()
-        .collect(Collectors.toList());
+        PageRequest.of(0, hotTopicCount,
+            Sort.by(Sort.Order.desc("rank"), Sort.Order.asc("title"))
+        )
+    ).stream().collect(Collectors.toList());
   }
 }
