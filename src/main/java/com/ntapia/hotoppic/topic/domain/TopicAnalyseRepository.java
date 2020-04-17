@@ -12,4 +12,6 @@ public interface TopicAnalyseRepository {
   void updateRssItems(Long rssId, List<RssItem> rssItems);
 
   void saveAllRssItems(List<RssItem> rssItems);
+
+  List<RssItem> findItemsByTopicAndLimit(int hotTopicCount);
 }

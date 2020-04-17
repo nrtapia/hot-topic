@@ -24,6 +24,8 @@ public class RssItem {
   @Column(nullable = false, length = 1000)
   private String link;
 
+  private Integer rank;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Rss rss;
 

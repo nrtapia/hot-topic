@@ -6,6 +6,6 @@ import lombok.Value;
 @Value
 public class TopicAnalyseCreatorRequest {
 
-  private final List<String> rssUrls;
+  private List<String> rssUrls;
 
 }

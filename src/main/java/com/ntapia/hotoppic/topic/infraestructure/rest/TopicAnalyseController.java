@@ -18,7 +18,6 @@ public class TopicAnalyseController {
 
   static final String ENDPOINT = "/analyse/new";
 
-
   private static final String ANALYSE_REQUEST_LOG = "Analyse request: {}";
 
   private final TopicAnalyseCreator topicAnalyseCreator;
