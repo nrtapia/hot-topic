@@ -1,6 +1,7 @@
 package com.ntapia.hotoppic.topic.domain;
 
 import com.ntapia.hotoppic.topic.application.creator.TopicAnalyseInvalidArgumentException;
+import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,16 +41,22 @@ public class Rss {
   @ManyToOne(fetch = FetchType.LAZY)
   private TopicAnalyse topicAnalyse;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @JoinColumn(name = "rss_id")
-  private List<FeedItem> feedItems;
+  @OneToMany(
+      mappedBy = "rss",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true
+  )
+  private List<RssItem> rssItems;
+
+  @Version
+  private Long version;
 
   public Rss() {
     this.id = null;
     this.url = null;
   }
 
-  public Rss(Long id, String url) {
+  private Rss(Long id, String url) {
     this.id = id;
     this.url = url;
   }

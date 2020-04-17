@@ -1,12 +1,11 @@
 package com.ntapia.hotoppic.topic.application.extractor;
 
-import com.ntapia.hotoppic.topic.domain.Rss;
-import java.util.List;
+import com.ntapia.hotoppic.topic.domain.TopicAnalyse;
 import lombok.Value;
 
 @Value
 public class TopicAnalyseExtractorRequest {
 
-  private final List<Rss> rssList;
+  private TopicAnalyse topicAnalyse;
 
 }

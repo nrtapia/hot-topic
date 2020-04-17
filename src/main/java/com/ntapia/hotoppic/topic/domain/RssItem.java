@@ -2,14 +2,17 @@ package com.ntapia.hotoppic.topic.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import lombok.Data;
 
 @Data
 @Entity
-public class FeedItem {
+public class RssItem {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,22 +21,29 @@ public class FeedItem {
   @Column(nullable = false)
   private String title;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 1000)
   private String link;
 
-  public FeedItem() {
+  @ManyToOne(fetch = FetchType.LAZY)
+  private Rss rss;
+
+  @Version
+  private Long version;
+
+  public RssItem() {
     this.id = null;
     this.title = null;
     this.link = null;
   }
 
-  public FeedItem(Long id, String title, String link) {
+  private RssItem(Long id, String title, String link, Rss rss) {
     this.id = id;
     this.title = title;
     this.link = link;
+    this.rss = rss;
   }
 
-  public static FeedItem create(Long id, String title, String link) {
-    return new FeedItem(null, title, link);
+  public static RssItem create(Long id, String title, String link, Rss rss) {
+    return new RssItem(null, title, link, rss);
   }
 }

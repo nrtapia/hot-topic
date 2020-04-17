@@ -1,6 +1,6 @@
 package com.ntapia.hotoppic.topic.infraestructure.http;
 
-import com.ntapia.hotoppic.topic.domain.FeedItem;
+import com.ntapia.hotoppic.topic.domain.RssItem;
 import com.ntapia.hotoppic.topic.domain.Rss;
 import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
@@ -26,11 +26,11 @@ public final class RssFeedDownloader implements Callable<Rss> {
   }
 
   @Override
-  public Rss call() throws Exception {
+  public Rss call() {
     log.info(DOWNLOAD_RSS_LOG, this.rss.getUrl());
 
     try {
-      this.rss.setFeedItems(readFeed());
+      this.rss.setRssItems(readFeed());
       return this.rss;
 
     } catch (Exception e) {
@@ -39,18 +39,18 @@ public final class RssFeedDownloader implements Callable<Rss> {
     }
   }
 
-  private List<FeedItem> readFeed() throws IOException, FeedException {
+  private List<RssItem> readFeed() throws IOException, FeedException {
     URL feedSource = new URL(this.rss.getUrl());
     SyndFeedInput input = new SyndFeedInput(false);
     SyndFeed feed = input.build(new XmlReader(feedSource));
 
-    List<FeedItem> feedItems = new ArrayList<>();
+    List<RssItem> rssItems = new ArrayList<>();
 
     feed.getEntries().forEach(entry -> {
       SyndEntryImpl syndEntry = (SyndEntryImpl) entry;
-      feedItems.add(FeedItem.create(null, syndEntry.getTitle(), syndEntry.getLink()));
+      rssItems.add(RssItem.create(null, syndEntry.getTitle(), syndEntry.getLink(), rss));
     });
 
-    return feedItems;
+    return rssItems;
   }
 }

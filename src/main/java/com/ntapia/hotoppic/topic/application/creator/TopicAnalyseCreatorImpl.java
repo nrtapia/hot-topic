@@ -44,8 +44,8 @@ public class TopicAnalyseCreatorImpl implements TopicAnalyseCreator {
     final TopicAnalyse topicAnalyse = TopicAnalyse.create(id, AnalyseStatus.CREATED);
     mapUrlsToRss(creatorRequest).forEach(topicAnalyse::addRss);
 
-    this.topicAnalyseRepository.save(topicAnalyse);
-    this.domainEventPublisher.publish(new TopicAnalyseCreated(topicAnalyse));
+    TopicAnalyse persisted = this.topicAnalyseRepository.save(topicAnalyse);
+    this.domainEventPublisher.publish(new TopicAnalyseCreated(persisted));
 
     return new TopicAnalyseCreatorResponse(id);
   }

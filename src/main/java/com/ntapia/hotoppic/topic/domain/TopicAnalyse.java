@@ -10,13 +10,17 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id")
 @ToString
 @Entity
@@ -34,13 +38,20 @@ public class TopicAnalyse {
   @OneToMany(cascade = ALL, fetch = FetchType.EAGER, mappedBy = "topicAnalyse")
   private List<Rss> rssList;
 
+  @OneToMany(cascade = ALL)
+  @JoinColumn(name = "topicAnalyse_id")
+  private List<HotTopic> hotTopics;
+
+  @Version
+  private Long version;
+
   private TopicAnalyse() {
     id = null;
     analyseStatus = null;
     rssList = null;
   }
 
-  public TopicAnalyse(String id, AnalyseStatus analyseStatus, List<Rss> rssList) {
+  private TopicAnalyse(String id, AnalyseStatus analyseStatus, List<Rss> rssList) {
     this.id = id;
     this.analyseStatus = analyseStatus;
     this.rssList = rssList;
@@ -55,7 +66,12 @@ public class TopicAnalyse {
   }
 
   public void addRss(Rss rss) {
-    rssList.add(rss);
+    this.rssList.add(rss);
     rss.setTopicAnalyse(this);
+  }
+
+  public void addHotTopics(List<HotTopic> hotTopics){
+    this.hotTopics = hotTopics;
+    this.analyseStatus = AnalyseStatus.FINISHED;
   }
 }

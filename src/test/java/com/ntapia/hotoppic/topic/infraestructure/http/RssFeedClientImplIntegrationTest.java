@@ -35,12 +35,12 @@ public class RssFeedClientImplIntegrationTest {
     assertNotNull(rssList);
     assertEquals(2, rssList.size());
 
-    assertNotNull(rssList.get(0).getFeedItems());
-    assertFalse(rssList.get(0).getFeedItems().isEmpty());
+    assertNotNull(rssList.get(0).getRssItems());
+    assertFalse(rssList.get(0).getRssItems().isEmpty());
 
-    assertNotNull(rssList.get(1).getFeedItems());
-    assertFalse(rssList.get(1).getFeedItems().isEmpty());
+    assertNotNull(rssList.get(1).getRssItems());
+    assertFalse(rssList.get(1).getRssItems().isEmpty());
 
-    rssList.forEach(rss -> log.info("URL: {} items: {}", rss.getUrl(), rss.getFeedItems().size()));
+    rssList.forEach(rss -> log.info("URL: {} items: {}", rss.getUrl(), rss.getRssItems().size()));
   }
 }

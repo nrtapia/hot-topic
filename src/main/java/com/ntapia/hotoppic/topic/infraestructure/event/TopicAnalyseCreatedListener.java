@@ -27,7 +27,7 @@ public class TopicAnalyseCreatedListener {
     log.info(LISTENER_TOPIC_ANALYSE_CREATED_LOG,
         domainEvent.getData().getTopicAnalyse().getId());
 
-    this.topicAnalyseExtractor.extract(
-        new TopicAnalyseExtractorRequest(domainEvent.getData().getTopicAnalyse().getRssList()));
+    this.topicAnalyseExtractor.extractAndAnalyse(
+        new TopicAnalyseExtractorRequest(domainEvent.getData().getTopicAnalyse()));
   }
 }
